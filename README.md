@@ -77,6 +77,15 @@ Funzionalità:
 Abbiamo sviluppato un prototipo interattivo su Figma:  
 [Prototipo Mindful Journal su Figma](https://www.figma.com/proto/Zg0eyr7FEhCsyZqVwQlmfX/Progetto-IUM?node-id=1-2&t=HiEJ27SodOjO7xAM-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=2029%3A1472&show-proto-sidebar=1)
 
+---
 
+# Testing del prototipo finale🖥️
+1. Andare nella cartella Progetto
+2. Successivamente ci sarà un file denominato Code.html
+3. Ci si clicca sopra
+4. In alto a destra è situata una sezione con tre puntini, ci si clicca e si esegue il download del file cliccado "Download"
+5. Aprire il download che vi porterà al sito di prova che abbiamo creato
+
+> ℹ️ Nota: il sito è un prototipo statico, senza backend o database. Le funzionalità sono simulate solo a livello di interfaccia.
 
 > Team: Gaetano Pascarella, Gabriele De Luca, Valerio Aliberti
