@@ -1,4 +1,4 @@
-# MindMate-ProgettoIUM🧠
+# MindMate - ProgettoIUM🧠
 Il progetto si intitola MindMate ed è un’applicazione mobile progettata per aiutare gli utenti a gestire e monitorare il proprio benessere mentale quotidiano.
 L’idea nasce dall’esigenza, sempre più attuale, di offrire uno spazio digitale che possa unire riflessione personale, supporto emotivo e connessione sociale in modo accessibile, semplice e centrato sull’utente.
 MindMate è quindi un compagno digitale, pensato non solo per chi già affronta percorsi terapeutici, ma anche per chi vuole semplicemente prendersi cura della propria salute mentale in modo proattivo.
