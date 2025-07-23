@@ -4,81 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MindMate</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <style>
         body {
             font-family: "Inter", sans-serif;
-            background-color: #f0f2f5; /* Light gray background */
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden; /* Prevents body scroll */
+            overflow: hidden;
         }
         .phone-frame {
             position: relative;
-            width: 300px; /* Smaller mobile width */
-            height: 650px; /* Smaller mobile height */
-            background-color: #1a1a1a; /* Dark gray for phone body */
-            border-radius: 30px; /* Rounded corners for phone */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 6px rgba(0, 0, 0, 0.1); /* Deep shadow */
+            width: 300px;
+            height: 650px;
+            background-color: #1a1a1a;
+            border-radius: 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 0 6px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 8px; /* Inner padding for frame */
-            box-sizing: border-box; /* Includes padding in width/height */
-            overflow: hidden; /* Hides anything outside the frame */
+            padding: 8px;
+            box-sizing: border-box;
+            overflow: hidden;
         }
         .phone-screen {
-            width: calc(100% - 16px); /* Screen takes up most of the frame */
+            width: calc(100% - 16px);
             height: calc(100% - 16px);
-            background-color: #ffffff; /* White screen background */
-            border-radius: 25px; /* Slightly less rounded than the frame */
-            overflow-y: auto; /* Vertical scrolling re-enabled */
+            background-color: #ffffff;
+            border-radius: 25px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center content horizontally */
-            justify-content: flex-start; /* Align content at the top */
-            /* No padding-top here, it will be handled by individual screen content */
-
-            /* Hide scrollbar for WebKit (Chrome, Safari) */
-            &::-webkit-scrollbar {
-                display: none;
-            }
-            /* Hide scrollbar for Firefox */
-            scrollbar-width: none; /* Firefox */
+            align-items: center;
+            justify-content: flex-start;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
         }
+        .phone-screen::-webkit-scrollbar {
+            display: none;
+        }
+
         .notch {
             position: absolute;
-            top: 8px; /* Position at the top of the phone frame */
+            top: 8px;
             width: 120px;
             height: 20px;
             background-color: #1a1a1a;
             border-bottom-left-radius: 12px;
             border-bottom-right-radius: 12px;
-            z-index: 10; /* Ensures it's above the screen */
+            z-index: 10;
         }
         .home-button-area {
             position: absolute;
-            bottom: 8px; /* Position at the bottom of the phone frame */
+            bottom: 8px;
             width: 80px;
             height: 6px;
-            background-color: #444; /* Darker gray for home indicator */
+            background-color: #444;
             border-radius: 3px;
             z-index: 10;
         }
 
-        /* Responsive adjustments for smaller screens */
         @media (max-width: 768px) {
             .phone-frame {
-                width: 90vw; /* Use viewport width for smaller screens */
-                height: 85vh; /* Use viewport height for smaller screens */
+                width: 90vw;
+                height: 85vh;
                 border-radius: 25px;
                 padding: 4px;
             }
@@ -100,7 +94,6 @@
             }
         }
 
-        /* Styles for custom confirmation message */
         .custom-message {
             position: absolute;
             top: 50%;
@@ -114,13 +107,12 @@
             font-size: 1.1rem;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
-            z-index: 100; /* Ensures it's above everything */
+            z-index: 100;
         }
         .custom-message.show {
             opacity: 1;
         }
 
-        /* Styles for toggle switch */
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -169,9 +161,9 @@
         }
 
         input:checked + .slider:before {
-            -webkit-transform: translateX(13px); /* Adjusted for better fit */
-            -ms-transform: translateX(13px); /* Adjusted for better fit */
-            transform: translateX(13px); /* Adjusted for better fit */
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
         }
     </style>
 </head>
@@ -179,33 +171,29 @@
     <div class="phone-frame">
         <div class="notch"></div>
         <div class="phone-screen" id="app-content">
-            <!-- Initial content will be loaded here by JavaScript -->
         </div>
         <div class="home-button-area"></div>
     </div>
 
     <script>
-        // appContent will be defined inside DOMContentLoaded
         let appContent;
 
-        // Function to show a custom message
         function showCustomMessage(message) {
             let messageBox = document.getElementById('customMessageBox');
             if (!messageBox) {
                 messageBox = document.createElement('div');
                 messageBox.id = 'customMessageBox';
                 messageBox.classList.add('custom-message');
-                document.body.appendChild(messageBox); // Add to body to be above phone frame
+                document.body.appendChild(messageBox);
             }
             messageBox.textContent = message;
             messageBox.classList.add('show');
 
             setTimeout(() => {
                 messageBox.classList.remove('show');
-            }, 2000); // Message disappears after 2 seconds
+            }, 2000);
         }
 
-        // Function to show the welcome screen
         function showWelcomeScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -225,11 +213,9 @@
                     </button>
                 </div>
             `;
-            // Add event listener after inserting the button into the DOM
             document.getElementById('getStartedButton').addEventListener('click', showLoginSignUpScreen);
         }
 
-        // Function to show the login/signup screen
         function showLoginSignUpScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -251,12 +237,10 @@
                     </button>
                 </div>
             `;
-            // Add event listeners after inserting the buttons into the DOM
             document.getElementById('logInButton').addEventListener('click', showDashboardScreen);
             document.getElementById('signUpButton').addEventListener('click', showSignUpScreen);
         }
 
-        // Function to show the signup screen
         function showSignUpScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -280,12 +264,10 @@
                     </button>
                 </div>
             `;
-            // Add event listeners after inserting the elements into the DOM
             document.getElementById('signUpSubmitButton').addEventListener('click', showDashboardScreen);
-            document.getElementById('logInLink').addEventListener('click', showLoginSignUpScreen); // Go back to login screen
+            document.getElementById('logInLink').addEventListener('click', showLoginSignUpScreen);
         }
 
-        // Function to show the dashboard screen
         function showDashboardScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -387,26 +369,19 @@
                     </div>
                 </div>
             `;
-            // Add logic for feeling buttons after they are added to the DOM
             const feelingButtons = appContent.querySelectorAll('.feeling-button');
             feelingButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // Remove 'selected' class from all buttons
                     feelingButtons.forEach(btn => {
                         btn.classList.remove('bg-blue-500', 'text-white', 'border-blue-500');
                         btn.classList.add('bg-gray-100', 'text-gray-700', 'border-gray-200');
                     });
 
-                    // Add 'selected' class to the clicked button
                     button.classList.remove('bg-gray-100', 'text-gray-700', 'border-gray-200');
                     button.classList.add('bg-blue-500', 'text-white', 'border-blue-500');
-
-                    console.log(`Feeling selected: ${button.dataset.feeling}`);
-                    // Here you could add further logic, e.g., saving the mood state
                 });
             });
 
-            // Logic for the "Save" button in the "Deepen your feelings" section
             const saveFeelingButton = appContent.querySelector('#saveFeelingButton');
             const feelingDetailsTextarea = appContent.querySelector('#feelingDetails');
 
@@ -414,36 +389,25 @@
                 saveFeelingButton.addEventListener('click', async () => {
                     const details = feelingDetailsTextarea.value;
                     if (details.trim() !== '') {
-                        console.log('Feeling details saved:', details);
                         showCustomMessage('Message saved!');
-                        feelingDetailsTextarea.value = ''; // Clear the textarea after saving
+                        feelingDetailsTextarea.value = '';
                     } else {
                         showCustomMessage('Please write something before saving.');
                     }
                 });
             }
 
-            // Link settings icon to profile screen
             document.getElementById('settingsIcon').addEventListener('click', showProfileScreen);
-            // Link "Profile" nav bar button to profile screen
             document.getElementById('profileNavButton').addEventListener('click', showProfileScreen);
-            // Link Archive button to archive screen
             document.getElementById('archiveButton').addEventListener('click', showArchiveScreen);
-            // Link Chat button (bottom) to chat list screen
             document.getElementById('chatButton').addEventListener('click', showChatListScreen);
-            // Link Chat icon (top left) to chat list screen
             document.getElementById('chatIconTopLeft').addEventListener('click', showChatListScreen);
-            // Link Reminder button (bottom) to reminders screen
             document.getElementById('reminderButton').addEventListener('click', showRemindersScreen);
-            // Link Community button (bottom) to community screen
             document.getElementById('communityButton').addEventListener('click', showCommunityScreen);
-            // Link Community nav button (bottom) to community screen
             document.getElementById('communityNavButton').addEventListener('click', showCommunityScreen);
-            // Link Resources nav button to resources screen
             document.getElementById('resourcesNavButton').addEventListener('click', showResourcesScreen);
         }
 
-        // Function to show the profile screen
         function showProfileScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -451,14 +415,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for profile -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToDashboard" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Profile</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Profile content -->
                     <div class="flex flex-col items-center p-6 bg-gray-50 flex-grow">
                         <div class="relative w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 overflow-hidden border-4 border-white shadow-md">
                             <img src="uploaded:image_4ea524.png-297985af-45ee-4ed3-b449-8acba63d4fa9" alt="Immagine del profilo utente" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/E0E0E0/333333?text=User';">
@@ -469,12 +431,10 @@
                         <h2 class="text-xl font-bold text-gray-800 mb-2">Gaetano Pascarella</h2>
                         <p class="text-gray-600 mb-6">pascarella.gaetano2003@outlook.it</p>
 
-                        <!-- Edit Profile Section (Name, Email, University removed) -->
                         <button id="editProfileButton" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 mb-6">
                             Edit Profile
                         </button>
                         
-                        <!-- Preferences Section -->
                         <div class="w-full mb-6">
                             <h3 class="text-lg font-extrabold text-gray-800 mb-4 px-4">Preferences</h3>
                             <div class="space-y-3">
@@ -499,7 +459,6 @@
                             </div>
                         </div>
 
-                        <!-- Support Section -->
                         <div class="w-full mb-8">
                             <h3 class="text-lg font-extrabold text-gray-800 mb-4 px-4">Support</h3>
                             <div class="space-y-3">
@@ -538,23 +497,15 @@
                         </button>
                     </div>
                 `;
-            // Link back button to dashboard screen
             document.getElementById('backToDashboard').addEventListener('click', showDashboardScreen);
-            // Link Edit Profile button to edit profile screen
             document.getElementById('editProfileButton').addEventListener('click', showEditProfileScreen);
-            // Link Notifications option to notifications screen
             document.getElementById('notificationsOption').addEventListener('click', showNotificationsScreen);
-            // Link Help option to help screen
             document.getElementById('helpOption').addEventListener('click', showHelpScreen);
-            // Link Contact Us option to contact us screen
             document.getElementById('contactUsOption').addEventListener('click', showContactUsScreen);
-            // Link About option to about screen
             document.getElementById('aboutOption').addEventListener('click', showAboutScreen);
-            // Link Reminders option to reminders screen
             document.getElementById('remindersOption').addEventListener('click', showRemindersScreen);
         }
 
-        // Function to show the edit profile screen
         function showEditProfileScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -562,14 +513,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for edit profile -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfile" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Edit Profile</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for edit profile -->
                     <div class="flex flex-col items-center p-6 bg-gray-50 flex-grow">
                         <div class="relative w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 overflow-hidden border-4 border-white shadow-md">
                             <img src="uploaded:image_4ea524.png-297985af-45ee-4ed3-b449-8acba63d4fa9" alt="Immagine del profilo utente" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/E0E0E0/333333?text=User';">
@@ -590,24 +539,18 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfile').addEventListener('click', showProfileScreen);
 
-            // Logic for the "Save Changes" button
             document.getElementById('saveChangesButton').addEventListener('click', () => {
                 const newName = document.getElementById('editName').value;
                 const newEmail = document.getElementById('editEmail').value;
                 const newPassword = document.getElementById('editPassword').value;
                 const newUniversity = document.getElementById('editUniversity').value;
 
-                console.log('Changes saved:', { newName, newEmail, newPassword, newUniversity });
-                showCustomMessage('Saved'); // Changed message to "Saved"
-                // Here you could add the logic to save user data
-                // and then return to the profile screen: showProfileScreen();
+                showCustomMessage('Saved');
             });
         }
 
-        // Function to show the notifications screen
         function showNotificationsScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -615,16 +558,13 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Notifications -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfileFromNotifications" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Notifications</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Notifications -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
-                        <!-- General Section -->
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">General</h3>
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center justify-between w-full">
@@ -649,7 +589,6 @@
                             </div>
                         </div>
 
-                        <!-- Community Section -->
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Community</h3>
                         <div class="space-y-4">
                             <div class="flex items-center justify-between w-full">
@@ -676,20 +615,15 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfileFromNotifications').addEventListener('click', showProfileScreen);
 
-            // Add event listeners for toggle switches
             const toggleSwitches = appContent.querySelectorAll('.toggle-switch input[type="checkbox"]');
             toggleSwitches.forEach(toggle => {
                 toggle.addEventListener('change', (event) => {
-                    console.log(`${event.target.previousElementSibling.textContent} is now: ${event.target.checked}`);
-                    // Here you would typically save the user's preference
                 });
             });
         }
 
-        // Function to show the help screen
         function showHelpScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -697,22 +631,18 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Help -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfileFromHelp" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Help</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Help -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
-                        <!-- Search Bar -->
                         <div class="relative mb-6">
                             <input type="text" placeholder="Search for answers" class="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                             <i class="fas fa-search text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
                         </div>
 
-                        <!-- Popular Questions Section -->
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Popular questions</h3>
                         <div class="space-y-3">
                             <div class="help-question flex items-center justify-between w-full p-4 bg-white rounded-lg shadow-sm border border-gray-200 cursor-pointer" data-question="How do I track my mood?">
@@ -739,10 +669,8 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfileFromHelp').addEventListener('click', showProfileScreen);
 
-            // Add event listeners to each help question
             const helpQuestions = appContent.querySelectorAll('.help-question');
             helpQuestions.forEach(questionDiv => {
                 questionDiv.addEventListener('click', () => {
@@ -752,7 +680,6 @@
             });
         }
 
-        // Function to show the help detail screen
         function showHelpDetailScreen(question) {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -760,14 +687,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Help Detail -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToHelpFromDetail" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Help</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Help Detail -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">${question}</h3>
                         <p class="text-gray-700 leading-relaxed">
@@ -775,15 +700,12 @@
                             If you need further assistance, please do not hesitate to contact us via the "Contact Us" section in your profile.
                             We are here to help you!
                         </p>
-                        <!-- You can add more detailed content here based on the question -->
                     </div>
                 </div>
             `;
-            // Link back button to help screen
             document.getElementById('backToHelpFromDetail').addEventListener('click', showHelpScreen);
         }
 
-        // Function to show the contact us screen
         function showContactUsScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -791,14 +713,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Contact Support -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfileFromContactUs" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Contact Support</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Contact Support -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">How can we help?</h3>
                         <div class="space-y-3">
@@ -824,15 +744,11 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfileFromContactUs').addEventListener('click', showProfileScreen);
-            // Link Email option to email screen
             document.getElementById('emailOption').addEventListener('click', showEmailScreen);
-            // Link Contact Form option to contact form screen
             document.getElementById('contactFormOption').addEventListener('click', showContactFormScreen);
         }
 
-        // Function to show the email screen
         function showEmailScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -840,14 +756,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Email -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToContactUsFromEmail" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Email Support</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Email -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Send us an Email</h3>
                         <p class="text-gray-700 mb-6">
@@ -861,11 +775,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to contact us screen
             document.getElementById('backToContactUsFromEmail').addEventListener('click', showContactUsScreen);
         }
 
-        // Function to show the contact form screen
         function showContactFormScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -873,14 +785,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Contact Form -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToContactUsFromForm" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Contact Form</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Contact Form -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Fill out the form below</h3>
                         <input type="text" placeholder="Your Name" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -894,11 +804,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to contact us screen
             document.getElementById('backToContactUsFromForm').addEventListener('click', showContactUsScreen);
         }
 
-        // Function to show the about screen
         function showAboutScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -906,14 +814,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for About MindMate -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfileFromAbout" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">About MindMate</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for About MindMate -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Our Mission</h3>
                         <p class="text-gray-700 leading-relaxed mb-6">
@@ -941,11 +847,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfileFromAbout').addEventListener('click', showProfileScreen);
         }
 
-        // Function to show the reminders screen
         function showRemindersScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -953,14 +857,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Reminders -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToProfileFromReminders" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Reminders</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Reminders -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Your Reminders</h3>
                         <div class="space-y-3">
@@ -992,13 +894,10 @@
                     </div>
                 </div>
             `;
-            // Link back button to profile screen
             document.getElementById('backToProfileFromReminders').addEventListener('click', showProfileScreen);
 
-            // Add event listener for "Add New Reminder" button
             document.getElementById('addNewReminderButton').addEventListener('click', showAddReminderScreen);
 
-            // Add event listeners for edit icons
             const editReminderIcons = appContent.querySelectorAll('.edit-reminder-icon');
             editReminderIcons.forEach(icon => {
                 icon.addEventListener('click', (event) => {
@@ -1011,7 +910,6 @@
             });
         }
 
-        // Function to show the add new reminder screen
         function showAddReminderScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1019,14 +917,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Add New Reminder -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToRemindersFromAdd" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Add New Reminder</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Add New Reminder -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Reminder Details</h3>
                         <input type="text" id="reminderTitle" placeholder="Reminder Title" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -1038,25 +934,21 @@
                     </div>
                 </div>
             `;
-            // Link back button to reminders screen
             document.getElementById('backToRemindersFromAdd').addEventListener('click', showRemindersScreen);
 
-            // Logic for saving a new reminder
             document.getElementById('saveNewReminderButton').addEventListener('click', () => {
                 const title = document.getElementById('reminderTitle').value;
                 const date = document.getElementById('reminderDate').value;
                 const time = document.getElementById('reminderTime').value;
                 if (title && date && time) {
-                    console.log('New Reminder Saved:', { title, date, time });
                     showCustomMessage('Reminder saved!');
-                    showRemindersScreen(); // Go back to reminders list
+                    showRemindersScreen();
                 } else {
                     showCustomMessage('Please fill all fields.');
                 }
             });
         }
 
-        // Function to show the edit reminder screen
         function showEditReminderScreen(title, date, time) {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1064,14 +956,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Edit Reminder -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToRemindersFromEdit" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Edit Reminder</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Edit Reminder -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Edit Reminder Details</h3>
                         <input type="text" id="editReminderTitle" placeholder="Reminder Title" value="${title}" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -1086,32 +976,26 @@
                     </div>
                 </div>
             `;
-            // Link back button to reminders screen
             document.getElementById('backToRemindersFromEdit').addEventListener('click', showRemindersScreen);
 
-            // Logic for saving edited reminder
             document.getElementById('saveEditedReminderButton').addEventListener('click', () => {
                 const newTitle = document.getElementById('editReminderTitle').value;
                 const newDate = document.getElementById('editReminderDate').value;
                 const newTime = document.getElementById('editReminderTime').value;
                 if (newTitle && newDate && newTime) {
-                    console.log('Reminder Edited:', { newTitle, newDate, newTime });
                     showCustomMessage('Reminder updated!');
-                    showRemindersScreen(); // Go back to reminders list
+                    showRemindersScreen();
                 } else {
                     showCustomMessage('Please fill all fields.');
                 }
             });
 
-            // Logic for deleting reminder
             document.getElementById('deleteReminderButton').addEventListener('click', () => {
-                console.log('Reminder Deleted:', { title, date, time });
                 showCustomMessage('Reminder deleted!');
-                showRemindersScreen(); // Go back to reminders list
+                showRemindersScreen();
             });
         }
 
-        // Function to show the archive screen
         function showArchiveScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1119,14 +1003,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Archive -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToDashboardFromArchive" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Archive</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Archive -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Your Saved Notes</h3>
                         <div id="notesList" class="space-y-3">
@@ -1135,11 +1017,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to dashboard screen
             document.getElementById('backToDashboardFromArchive').addEventListener('click', showDashboardScreen);
         }
 
-        // Function to show the chat list screen
         function showChatListScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1147,14 +1027,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Chat List -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToDashboardFromChatList" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Chat</span>
                         <i id="addFriendButton" class="fas fa-plus text-gray-600 text-xl cursor-pointer"></i>
                     </div>
 
-                    <!-- Search Bar -->
                     <div class="p-4">
                         <div class="relative">
                             <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -1162,7 +1040,6 @@
                         </div>
                     </div>
 
-                    <!-- Friends List -->
                     <div class="p-4 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Friends</h3>
                         <div class="space-y-3">
@@ -1211,15 +1088,11 @@
                         </div>
                     </div>
 
-                    <!-- Bottom Navigation (already present in parent structure) -->
                 </div>
             `;
-            // Link back button to dashboard screen
             document.getElementById('backToDashboardFromChatList').addEventListener('click', showDashboardScreen);
-            // Link add friend button to add friends screen
             document.getElementById('addFriendButton').addEventListener('click', showAddFriendsScreen);
 
-            // Add event listeners to each friend item to open chat conversation
             const friendItems = appContent.querySelectorAll('.friend-item');
             friendItems.forEach(item => {
                 item.addEventListener('click', (event) => {
@@ -1229,7 +1102,6 @@
             });
         }
 
-        // Function to show the add friends screen
         function showAddFriendsScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1237,14 +1109,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Add Friends -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToChatListFromAddFriends" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Add Friends</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Search Bar for username -->
                     <div class="p-4">
                         <div class="relative">
                             <input type="text" placeholder="Search by username" class="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -1252,7 +1122,6 @@
                         </div>
                     </div>
 
-                    <!-- Search Results -->
                     <div class="p-4">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Search Results</h3>
                         <div class="space-y-3">
@@ -1289,7 +1158,6 @@
                         </div>
                     </div>
 
-                    <!-- Pending Requests -->
                     <div class="p-4 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Pending Requests</h3>
                         <div class="space-y-3">
@@ -1317,11 +1185,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to chat list screen
             document.getElementById('backToChatListFromAddFriends').addEventListener('click', showChatListScreen);
         }
 
-        // Function to show a specific chat conversation screen
         function showChatConversationScreen(friendName) {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1329,16 +1195,13 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Chat Conversation -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToChatListFromConversation" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">${friendName}</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Chat Messages Area -->
                     <div class="flex-grow p-4 overflow-y-auto space-y-4">
-                        <!-- Example incoming message -->
                         <div class="flex items-start">
                             <img src="https://placehold.co/30x30/E0E0E0/333333?text=${friendName.substring(0,1)}" alt="Immagine di profilo di ${friendName}" class="w-8 h-8 rounded-full mr-3">
                             <div class="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[75%]">
@@ -1347,14 +1210,12 @@
                             </div>
                         </div>
 
-                        <!-- Example outgoing message -->
                         <div class="flex justify-end items-end">
                             <div class="bg-blue-500 text-white p-3 rounded-lg max-w-[75%]">
                                 <p class="text-sm">I'm feeling a bit overwhelmed with exams, but trying to stay positive. How about you?</p>
                             </div>
                         </div>
 
-                        <!-- Another incoming message -->
                         <div class="flex items-start">
                             <img src="https://placehold.co/30x30/E0E0E0/333333?text=${friendName.substring(0,1)}" alt="Immagine di profilo di ${friendName}" class="w-8 h-8 rounded-full mr-3">
                             <div class="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[75%]">
@@ -1363,14 +1224,12 @@
                             </div>
                         </div>
 
-                        <!-- Another outgoing message -->
                         <div class="flex justify-end items-end">
                             <div class="bg-blue-500 text-white p-3 rounded-lg max-w-[75%]">
                                 <p class="text-sm">That's a good approach. Any tips for staying focused?</p>
                             </div>
                         </div>
 
-                        <!-- Final incoming message -->
                         <div class="flex items-start">
                             <img src="https://placehold.co/30x30/E0E0E0/333333?text=${friendName.substring(0,1)}" alt="Immagine di profilo di ${friendName}" class="w-8 h-8 rounded-full mr-3">
                             <div class="bg-gray-200 text-gray-800 p-3 rounded-lg max-w-[75%]">
@@ -1379,7 +1238,6 @@
                         </div>
                     </div>
 
-                    <!-- Message Input Area -->
                     <div class="py-4 px-2 bg-white border-t border-gray-200 flex items-center">
                         <input type="text" placeholder="Write a message" class="flex-grow px-4 py-2 bg-gray-100 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <button class="text-gray-600 text-xl ml-2">
@@ -1391,11 +1249,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to chat list screen
             document.getElementById('backToChatListFromConversation').addEventListener('click', showChatListScreen);
         }
 
-        // Function to show the community screen
         function showCommunityScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1403,14 +1259,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Community -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToDashboardFromCommunity" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">MindMate</span>
                         <i id="settingsIconCommunity" class="fas fa-cog text-gray-600 text-xl cursor-pointer"></i>
                     </div>
 
-                    <!-- Search Bar -->
                     <div class="p-4">
                         <div class="relative">
                             <input type="text" placeholder="Search" class="w-full pl-10 pr-4 py-3 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
@@ -1418,14 +1272,12 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Tabs -->
                     <div class="flex justify-around p-2 bg-white border-b border-gray-200">
                         <button class="flex-1 py-2 text-blue-600 font-semibold border-b-2 border-blue-600">All</button>
                         <button class="flex-1 py-2 text-gray-600 font-semibold hover:text-blue-600 transition duration-200">Groups</button>
                         <button class="flex-1 py-2 text-gray-600 font-semibold hover:text-blue-600 transition duration-200">Following</button>
                     </div>
 
-                    <!-- Community Groups List -->
                     <div class="p-4 flex-grow overflow-y-auto">
                         <div class="space-y-3">
                             <div class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200">
@@ -1459,7 +1311,6 @@
                         </div>
                     </div>
 
-                    <!-- Add Group Button -->
                     <div class="p-4 flex justify-center">
                         <button id="addGroupButton" class="flex items-center px-6 py-3 bg-blue-500 text-white font-semibold rounded-full shadow-md hover:bg-blue-600 transition duration-300">
                             <i class="fas fa-plus mr-2"></i> Add Group
@@ -1467,15 +1318,11 @@
                     </div>
                 </div>
             `;
-            // Link back button to dashboard screen
             document.getElementById('backToDashboardFromCommunity').addEventListener('click', showDashboardScreen);
-            // Link settings icon to profile screen
             document.getElementById('settingsIconCommunity').addEventListener('click', showProfileScreen);
-            // Link Add Group button to new group screen
             document.getElementById('addGroupButton').addEventListener('click', showNewGroupScreen);
         }
 
-        // Function to show the new group screen
         function showNewGroupScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1483,14 +1330,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for New Group -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToCommunityFromNewGroup" class="fas fa-times text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">New Group</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for New Group -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <input type="text" placeholder="Group Name" class="w-full px-4 py-3 mb-4 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                         <textarea placeholder="Description" class="w-full px-4 py-3 mb-6 bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" rows="4"></textarea>
@@ -1532,16 +1377,13 @@
                     </div>
                 </div>
             `;
-            // Link back button to community screen
             document.getElementById('backToCommunityFromNewGroup').addEventListener('click', showCommunityScreen);
-            // Logic for creating a new group
             document.getElementById('createGroupButton').addEventListener('click', () => {
                 showCustomMessage('Group created!');
-                showCommunityScreen(); // Go back to community list
+                showCommunityScreen();
             });
         }
 
-        // Function to show the resources screen
         function showResourcesScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1549,21 +1391,18 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Resources -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToDashboardFromResources" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Resources</span>
                         <i id="settingsIconResources" class="fas fa-cog text-gray-600 text-xl cursor-pointer"></i>
                     </div>
 
-                    <!-- Navigation Tabs -->
                     <div class="flex justify-around p-2 bg-white border-b border-gray-200">
                         <button class="flex-1 py-2 text-blue-600 font-semibold border-b-2 border-blue-600">All</button>
                         <button id="articlesTabButton" class="flex-1 py-2 text-gray-600 font-semibold hover:text-blue-600 transition duration-200">Articles</button>
                         <button id="videosTabButton" class="flex-1 py-2 text-gray-600 font-semibold hover:text-blue-600 transition duration-200">Videos</button>
                     </div>
 
-                    <!-- Featured Section -->
                     <div class="p-4 bg-gray-50">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Featured</h3>
                         <div class="flex items-center p-3 bg-white rounded-lg shadow-sm border border-gray-200">
@@ -1576,7 +1415,6 @@
                         </div>
                     </div>
 
-                    <!-- Mood Trends Section -->
                     <div class="p-4 bg-gray-50">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Mood Trends</h3>
                         <div class="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
@@ -1587,7 +1425,6 @@
                         </div>
                     </div>
 
-                    <!-- Categories Section -->
                     <div class="p-4 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Categories</h3>
                         <div class="grid grid-cols-2 gap-3">
@@ -1600,7 +1437,7 @@
                                 <span class="text-sm font-semibold">Community</span>
                             </button>
                             <button id="supportGroupsCategoryButton" class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm border border-gray-200 text-gray-700 hover:bg-gray-50 transition duration-200">
-                                <i class="fas fa-handshake text-xl mb-2"></i> <!-- Changed icon here -->
+                                <i class="fas fa-handshake text-xl mb-2"></i>
                                 <span class="text-sm font-semibold">Support Groups</span>
                             </button>
                             <button id="chatCategoryButton" class="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm border border-gray-200 text-gray-700 hover:bg-gray-50 transition duration-200">
@@ -1638,40 +1475,26 @@
                     </div>
                 </div>
             `;
-            // Link back button to dashboard screen
             document.getElementById('backToDashboardFromResources').addEventListener('click', showDashboardScreen);
-            // Link settings icon to profile screen
             document.getElementById('settingsIconResources').addEventListener('click', showProfileScreen);
-            // Link Community category button to community screen
             document.getElementById('communityCategoryButton').addEventListener('click', showCommunityScreen);
-            // Link Chat category button to chat list screen
             document.getElementById('chatCategoryButton').addEventListener('click', showChatListScreen);
-            // Link Support Groups category button to community screen
             document.getElementById('supportGroupsCategoryButton').addEventListener('click', showCommunityScreen);
-            // Link FAQ category button to help screen
             document.getElementById('faqCategoryButton').addEventListener('click', showHelpScreen);
-            // Link Mindfulness category button to about screen
             document.getElementById('mindfulnessCategoryButton').addEventListener('click', showAboutScreen);
-            // Link Self-Care category button to self-care screen
             document.getElementById('selfCareCategoryButton').addEventListener('click', showSelfCareScreen);
-            // Link Articles tab button to articles screen
             document.getElementById('articlesTabButton').addEventListener('click', showArticlesScreen);
-            // Link Videos tab button to videos screen
             document.getElementById('videosTabButton').addEventListener('click', showVideosScreen);
 
-
-            // Re-link bottom navigation buttons to the respective screens
             document.getElementById('resourcesNavButtonBottom').addEventListener('click', showResourcesScreen);
             document.getElementById('communityNavButtonBottom').addEventListener('click', showCommunityScreen);
             document.getElementById('profileNavButtonBottom').addEventListener('click', showProfileScreen);
-            // Assuming there's a home button in the bottom nav, link it to dashboard
             const homeButtonBottom = appContent.querySelector('.w-full.bg-white.border-t.border-gray-200.grid.grid-cols-4 button:first-child');
             if (homeButtonBottom) {
                 homeButtonBottom.addEventListener('click', showDashboardScreen);
             }
         }
 
-        // Function to show the self-care screen
         function showSelfCareScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1679,14 +1502,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Self-Care -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToResourcesFromSelfCare" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Self-Care</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Self-Care -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Self-Care Practices</h3>
                         <div class="space-y-4">
@@ -1709,11 +1530,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to resources screen
             document.getElementById('backToResourcesFromSelfCare').addEventListener('click', showResourcesScreen);
         }
 
-        // Function to show the articles screen
         function showArticlesScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1721,14 +1540,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Articles -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToResourcesFromArticles" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Articles</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Articles -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Latest Articles</h3>
                         <div class="space-y-4">
@@ -1751,11 +1568,9 @@
                     </div>
                 </div>
             `;
-            // Link back button to resources screen
             document.getElementById('backToResourcesFromArticles').addEventListener('click', showResourcesScreen);
         }
 
-        // Function to show the videos screen
         function showVideosScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
@@ -1763,14 +1578,12 @@
             }
             appContent.innerHTML = `
                 <div class="w-full flex flex-col flex-grow">
-                    <!-- Top Bar for Videos -->
                     <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
                         <i id="backToResourcesFromVideos" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
                         <span class="font-bold text-lg text-gray-800 flex-grow text-center">Videos</span>
-                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                        <div class="w-6"></div>
                     </div>
 
-                    <!-- Content for Videos -->
                     <div class="flex flex-col p-6 bg-gray-50 flex-grow overflow-y-auto">
                         <h3 class="text-lg font-extrabold text-gray-800 mb-4">Recommended Videos</h3>
                         <div class="space-y-4">
@@ -1784,21 +1597,19 @@
                                 <h4 class="font-semibold text-gray-800 mb-2">Understanding Cognitive Behavioral Therapy (CBT)</h4>
                                 <p class="text-sm text-gray-600">An animated explanation of CBT principles.</p>
                                 <img src="https://placehold.co/200x120/E0E0E0/333333?text=Video+Thumbnail" alt="Video thumbnail" class="w-full h-auto rounded-lg mt-3">
-                                <button class="mt-3 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold hover:bg-blue-200 transition duration-200">Watch Video</button>
+                                <button class="mt-3 px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold hover:bg-blue-200 transition duration-300">Watch Video</button>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
-            // Link back button to resources screen
             document.getElementById('backToResourcesFromVideos').addEventListener('click', showResourcesScreen);
         }
 
 
         document.addEventListener('DOMContentLoaded', async () => {
-            // Assign appContent here, after the DOM is ready
             appContent = document.getElementById('app-content');
-            showWelcomeScreen(); // Start the app with the welcome screen
+            showWelcomeScreen();
         });
     </script>
 </body>
