@@ -506,7 +506,7 @@
             document.getElementById('remindersOption').addEventListener('click', showRemindersScreen);
         }
 
-         function showEditProfileScreen() {
+       function showEditProfileScreen() {
             if (!appContent) {
                 console.error("appContent is null. DOM not ready or element not found.");
                 return;
@@ -523,7 +523,7 @@
                     <!-- Content for edit profile -->
                     <div class="flex flex-col items-center p-6 bg-gray-50 flex-grow">
                         <div class="relative w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 overflow-hidden border-4 border-white shadow-md">
-                            <img src="uploaded:png-clipart-icone-de-visage-utilisateur-conception-d-icone-profil-utilisateur-icone-de-partage-avatar-noir-et-blanc-silhouette.png-900x900" alt="Immagine del profilo utente" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/E0E0E0/333333?text=User';">
+                            <img src="uploaded:image_4ea524.png-297985af-45ee-4ed3-b449-8acba63d4fa9" alt="Immagine del profilo utente" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/E0E0E0/333333?text=User';">
                             <button class="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-1 text-xs">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -541,8 +541,9 @@
                     </div>
                 </div>
             `;
-            
+            // Link back button to profile screen
             document.getElementById('backToProfile').addEventListener('click', showProfileScreen);
+
 
             document.getElementById('saveChangesButton').addEventListener('click', () => {
                 const newName = document.getElementById('editName').value;
