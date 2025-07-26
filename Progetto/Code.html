@@ -506,42 +506,43 @@
             document.getElementById('remindersOption').addEventListener('click', showRemindersScreen);
         }
 
-        function showEditReminderScreen(title, date, time) {
-    if (!appContent) {
-        console.error("appContent is null. DOM not ready or element not found.");
-        return;
-    }
-    appContent.innerHTML = `
-        <div class="w-full flex flex-col flex-grow">
-            <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
-                <i id="backToRemindersFromEdit" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
-                <span class="font-bold text-lg text-gray-800 flex-grow text-center">Edit Reminder</span>
-                <div class="w-6"></div>
-            </div>
+         function showEditProfileScreen() {
+            if (!appContent) {
+                console.error("appContent is null. DOM not ready or element not found.");
+                return;
+            }
+            appContent.innerHTML = `
+                <div class="w-full flex flex-col flex-grow">
+                    <!-- Top Bar for edit profile -->
+                    <div class="flex justify-between items-center p-4 bg-white border-b border-gray-200">
+                        <i id="backToProfile" class="fas fa-arrow-left text-gray-600 text-xl cursor-pointer"></i>
+                        <span class="font-bold text-lg text-gray-800 flex-grow text-center">Edit Profile</span>
+                        <div class="w-6"></div> <!-- Empty space for alignment -->
+                    </div>
 
-            <div class="flex flex-col p-6 bg-gray-50 flex-grow">
-                <!-- Immagine inserita qui -->
-                <img src="https://e1.pngegg.com/pngimages/386/684/png-clipart-icone-de-visage-utilisateur-conception-d-icone-profil-utilisateur-icone-de-partage-avatar-noir-et-blanc-silhouette.png" 
-                     alt="User Avatar" 
-                     class="w-24 h-24 mx-auto mb-4 rounded-full">
+                    <!-- Content for edit profile -->
+                    <div class="flex flex-col items-center p-6 bg-gray-50 flex-grow">
+                        <div class="relative w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center mb-4 overflow-hidden border-4 border-white shadow-md">
+                            <img src="uploaded:png-clipart-icone-de-visage-utilisateur-conception-d-icone-profil-utilisateur-icone-de-partage-avatar-noir-et-blanc-silhouette.png-900x900" alt="Immagine del profilo utente" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/96x96/E0E0E0/333333?text=User';">
+                            <button class="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-1 text-xs">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-6">Edit Your Information</h2>
 
-                <h3 class="text-lg font-extrabold text-gray-800 mb-4 text-center">Edit Reminder Details</h3>
-                
-                <input type="text" id="editReminderTitle" placeholder="Reminder Title" value="${title}" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="date" id="editReminderDate" value="${date}" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <input type="time" id="editReminderTime" value="${time}" class="w-full px-4 py-3 mb-6 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                
-                <button id="saveEditedReminderButton" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
-                    Save Changes
-                </button>
-                <button id="deleteReminderButton" class="w-full py-3 bg-red-100 text-red-600 font-semibold rounded-lg shadow-md hover:bg-red-200 transition duration-300 mt-4">
-                    Delete Reminder
-                </button>
-            </div>
-        </div>
-    `;
-    document.getElementById('backToRemindersFromEdit').addEventListener('click', showRemindersScreen);
-}
+                        <input type="text" id="editName" placeholder="Name" value="Gaetano Pascarella" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <input type="email" id="editEmail" placeholder="Email address" value="pascarella.gaetano2003@outlook.it" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <input type="password" id="editPassword" placeholder="New Password (optional)" class="w-full px-4 py-3 mb-4 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <input type="text" id="editUniversity" placeholder="University (optional)" value="University of Fisciano" class="w-full px-4 py-3 mb-6 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+                        <button id="saveChangesButton" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+                            Save Changes
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('backToProfile').addEventListener('click', showProfileScreen);
 
             document.getElementById('saveChangesButton').addEventListener('click', () => {
                 const newName = document.getElementById('editName').value;
